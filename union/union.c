@@ -16,9 +16,27 @@ void ft_union(char *first, char *second)
 	{
 		if (ascii[(int)first[i]] == 1)
 		{
-			
+			ascii[(int)first[i]] = 2;
 			write(1, &first[i], 1);
 		}
+		i++;
+	}
+	i = 0;
+	while (second[i])
+	{
+		if (ascii[(int)second[i]] == 0)
+			ascii[(int)second[i]] = 1;
+		i++;
+	}
+	i = 0;
+	while (second[i])
+	{
+		if (ascii[(int)second[i]] == 1)
+		{
+			ascii[(int)second[i]] = 2;
+			write(1, &second[i], 1);
+		}
+		i++;
 	}
 }
 
