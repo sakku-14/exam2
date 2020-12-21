@@ -66,3 +66,18 @@ int get_next_line(char **line)
 	}
 	return (1);
 }
+
+#include <stdio.h>
+int main()
+{
+	char *line;
+	int d;
+	d = get_next_line(&line);
+	while (d)
+	{
+		printf("ret=%d...line=\"%s\"\n", d, line);
+		d = get_next_line(&line);
+		if (d == 0)
+			printf("ret=%d...line=\"%s\"\n", d, line);
+	}
+}
