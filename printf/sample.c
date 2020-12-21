@@ -5,11 +5,11 @@
 #include <unistd.h>
 
 
-int 	pre;
-int		width;
+int 	conversion;
+int		minfield;
 int		p;
 int		i;
-char	conv;
+char	conversion;
 int		ret;
 
 int		ft_strlen(char *s)
@@ -90,7 +90,7 @@ char	*ft_itoa(long n, int base)
 
 void	ft_conv(va_list ap)
 {
-	if (conv == 'd')
+	if (conversion == 'd')
 	{
 		char *s;
 		int sign;
@@ -101,40 +101,40 @@ void	ft_conv(va_list ap)
 		s = ft_itoa(nb, 10);
 		int len;
 		len = (sign) ? ft_strlen(s) + 1: ft_strlen(s);
-		(p == 1 && pre == 0 && nb == 0) ? len = 0: len;
-		while (width > len && width > pre)
+		(p == 1 && conversion == 0 && nb == 0) ? len = 0: len;
+		while (minfield > len && minfield > conversion)
 		{
 			ft_putchar(' ');
-			width--;
+			minfield--;
 		}
 		len = (sign) ? len - 1: len;
 		(sign) ? ft_putchar('-') : 0;
-		while (pre > len)
+		while (conversion > len)
 		{
 			ft_putchar('0');
-			pre--;
+			conversion--;
 		}
 		(len) ? ft_putstr(s) : 0;
 	}
-	if (conv == 's')
+	if (conversion == 's')
 	{
 		int len;
 		char *s;
 		s = va_arg(ap, char *);
 		len = ft_strlen(s);
-		(pre == 0 && p == 1) ? len = pre: len;
-		(pre != 0 && pre < len) ? len = pre: len;
-		while (width > len)
+		(conversion == 0 && p == 1) ? len = conversion: len;
+		(conversion != 0 && conversion < len) ? len = conversion: len;
+		while (minfield > len)
 		{
 			ft_putchar(' ');
-			width--;
+			minfield--;
 		}
 		for (int i = 0; i < len; i++)
 		{
 			ft_putchar(s[i]);
 		}
 	}
-	if (conv == 'x')
+	if (conversion == 'x')
 	{
 		char *s;
 		unsigned int nb;
@@ -142,16 +142,16 @@ void	ft_conv(va_list ap)
 		s = ft_itoa(nb, 16);
 		int len;
 		len = ft_strlen(s);
-		(p == 1 && pre == 0 && nb == 0) ? len = 0: len;
-		while (width > len && width > pre)
+		(p == 1 && conversion == 0 && nb == 0) ? len = 0: len;
+		while (minfield > len && minfield > conversion)
 		{
 			ft_putchar(' ');
-			width--;
+			minfield--;
 		}
-		while (pre > len)
+		while (conversion > len)
 		{
 			ft_putchar('0');
-			pre--;
+			conversion--;
 		}
 		(len) ? ft_putstr(s) : 0;
 	}
@@ -159,8 +159,8 @@ void	ft_conv(va_list ap)
 
 void	ft_print(va_list ap, const char *s)
 {
-	width = 0;
-	pre = 0;
+	minfield = 0;
+	conversion = 0;
 	if (s[i] == '%')
 	{
 		ft_putchar('%');
@@ -169,7 +169,7 @@ void	ft_print(va_list ap, const char *s)
 	}
 	while (s[i] >= '0' && s[i] <= '9')
 	{
-		width = width * 10 + s[i] - 48;
+		minfield = minfield * 10 + s[i] - 48;
 		i++;
 	}
 	if (s[i] == '.')
@@ -178,11 +178,11 @@ void	ft_print(va_list ap, const char *s)
 		p = 1;
 		while (s[i] >= '0' && s[i] <= '9')
 		{
-			pre = pre * 10 + s[i] - 48;
+			conversion = conversion * 10 + s[i] - 48;
 			i++;
 		}
 	}
-	conv = s[i++];
+	conversion = s[i++];
 	ft_conv(ap);
 }
 
